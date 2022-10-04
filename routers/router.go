@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitializeRouter(address string, c controllers.Controller) *gin.Engine {
+func InitializeUserRouter(address string, c controllers.Controller) *gin.Engine {
 	r := gin.Default()
 
 	r.GET("/users", c.GetUsers)

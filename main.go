@@ -17,6 +17,6 @@ func main() {
 
 	ctr := controllers.InitializeNewControllerWithDB(db)
 
-	r := routers.InitializeRouter(":8080", ctr)
+	r := routers.InitializeUserRouter(":8080", ctr)
 	r.Run()
 }
