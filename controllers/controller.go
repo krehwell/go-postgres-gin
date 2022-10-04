@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"rest-api-practice/database"
+	"rest-api-practice/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +21,7 @@ func (c Controller) GetUsers(ctx *gin.Context) {
 }
 
 func (c Controller) CreateUser(ctx *gin.Context) {
-
+	newUser := models.User{}
+	ctx.ShouldBindJSON(&newUser)
+	c.db.CreateUser(newUser)
 }
