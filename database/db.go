@@ -60,3 +60,13 @@ func (d Database) CreateUser(newUser models.User) {
 
 	fmt.Println("New user created:", newUser)
 }
+
+func (d Database) UpdateUserWithNewUserData(user models.User, newUserData models.User) error {
+	err := d.db.Model(&user).Updates(newUserData).Error
+	if err != nil {
+		fmt.Println("Error in updating user", err)
+		return err
+	}
+
+	return nil
+}
