@@ -1,22 +1,21 @@
 # CRUD Operation with Gin and Postgres in Golang
-Documentation which is made by me, for my needs, and is meant for my dumb future me who will forgot how did I made this.
+Documentation which is made by me, for my needs, and is meant for my future dumb me who will forgot how did I made this.
 
 ## Setup DB (I'm using Arch Linux)
 Installation
-```bash
-$ pacman -S postgres 
+``` bash
+# pacman -S postgres 
 ```
 
 Initial DB Setup
-```bash
+``` bash
 $ sudo -iu postgres
 [postgres]$user initdb -D /var/lib/postgres/data # initialize default save for postgres
-$ createdb golangTestDB
+[postgres]$user createdb golangTestDB
 ```
 
 You can now connect to DB, I'm using DBeaver to connect it, should be:
-- File -> New -> Database Connection -> PostgreSQL
-- Config it with
+- File -> New -> Database Connection -> PostgreSQL Config it with
     - Server: `Host: localhost`, `Database: postgres`
     - Authentication: `Username: postgres`, `Password: <none>`. Leave password empty if never set before
 
