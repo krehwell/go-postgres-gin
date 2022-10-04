@@ -41,7 +41,6 @@ func (d Database) GetUsers() []models.User {
 }
 
 func (d Database) GetUserById(id int) (models.User, error) {
-	fmt.Println("", id)
 	user := models.User{ID: id}
 	if err := d.db.First(&user).Error; err != nil {
 		fmt.Println("Error in getting the user with ID:", id, err)

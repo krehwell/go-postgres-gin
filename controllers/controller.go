@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"rest-api-practice/database"
 	"rest-api-practice/models"
@@ -66,4 +67,8 @@ func (c Controller) UpdateUserById(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
 		return
 	}
+
+	fmt.Println("one user updated")
+	fmt.Println("prev data", user)
+	fmt.Println("updated data", userWithUpdatedData)
 }
