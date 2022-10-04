@@ -22,7 +22,7 @@ func InitializeDB() (Database, error) {
 		return Database{}, dbConnectErr
 	}
 
-	if dbMigrateErr := db.AutoMigrate(models.Person{}); dbMigrateErr != nil {
+	if dbMigrateErr := db.AutoMigrate(models.User{}); dbMigrateErr != nil {
 		return Database{}, dbMigrateErr
 	}
 
@@ -33,14 +33,14 @@ type Database struct {
 	db *gorm.DB
 }
 
-func (d Database) GetUsers() []models.Person {
-	persons := []models.Person{}
-	d.db.Find(&persons)
+func (d Database) GetUsers() []models.User {
+	users := []models.User{}
+	d.db.Find(&users)
 
-	return persons
+	return users
 }
 
-func (d Database) CreateUser(newUser models.Person) {
+func (d Database) CreateUser(newUser models.User) {
 	err := d.db.Create(&newUser).Error
 	if err != nil {
 		fmt.Println("Error in creating new user", err)
