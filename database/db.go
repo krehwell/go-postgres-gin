@@ -40,10 +40,22 @@ func (d Database) GetUsers() []models.User {
 	return users
 }
 
+func (d Database) GetUserById(id int) (models.User, error) {
+	fmt.Println("", id)
+	user := models.User{ID: id}
+	if err := d.db.First(&user).Error; err != nil {
+		fmt.Println("Error in getting the user with ID:", id, err)
+		return models.User{}, err
+	}
+
+	return user, nil
+}
+
 func (d Database) CreateUser(newUser models.User) {
 	err := d.db.Create(&newUser).Error
 	if err != nil {
 		fmt.Println("Error in creating new user", err)
+		return
 	}
 
 	fmt.Println("New user created:", newUser)
