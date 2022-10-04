@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"errors"
-	"fmt"
 	"net/http"
 	"rest-api-practice/database"
 	"rest-api-practice/models"
@@ -15,6 +13,15 @@ type Controller struct {
 	db database.Database
 }
 
+func parseIdParamsWithAbortion(ctx *gin.Context) int {
+	id, parseIdError := strconv.Atoi(ctx.Param("id"))
+	if parseIdError != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, struct{ Message string }{"ID must be a number"})
+		return -1
+	}
+	return id
+}
+
 func InitializeNewControllerWithDB(db database.Database) Controller {
 	return Controller{db: db}
 }
@@ -25,10 +32,8 @@ func (c Controller) GetUsers(ctx *gin.Context) {
 }
 
 func (c Controller) GetUserById(ctx *gin.Context) {
-	_id := ctx.Param("id")
-	id, err := strconv.Atoi(_id)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, errors.New("id should be a number"))
+	id := parseIdParamsWithAbortion(ctx)
+	if id == -1 {
 		return
 	}
 
@@ -48,10 +53,8 @@ func (c Controller) CreateUser(ctx *gin.Context) {
 }
 
 func (c Controller) UpdateUserById(ctx *gin.Context) {
-	_id := ctx.Param("id")
-	id, parseIdError := strconv.Atoi(_id)
-	if parseIdError != nil {
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, errors.New("id should be a number"))
+	id := parseIdParamsWithAbortion(ctx)
+	if id == -1 {
 		return
 	}
 
@@ -63,12 +66,14 @@ func (c Controller) UpdateUserById(ctx *gin.Context) {
 	}
 
 	ctx.ShouldBindJSON(&userWithUpdatedData)
-	if err := c.db.UpdateUserWithNewUserData(user, userWithUpdatedData); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
+	c.db.UpdateUserWithNewUserData(user, userWithUpdatedData)
+}
+
+func (c Controller) DeleteUserById(ctx *gin.Context) {
+	id := parseIdParamsWithAbortion(ctx)
+	if id == -1 {
 		return
 	}
 
-	fmt.Println("one user updated")
-	fmt.Println("prev data", user)
-	fmt.Println("updated data", userWithUpdatedData)
+	c.db.DeleteUserById(id)
 }

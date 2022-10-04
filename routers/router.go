@@ -13,7 +13,7 @@ func InitializeUserRouter(address string, c controllers.Controller) *gin.Engine 
 	r.GET("/user/:id", c.GetUserById)
 	r.POST("/user", c.CreateUser)
 	r.PUT("/user/:id", c.UpdateUserById)
-	r.DELETE("/user/:id")
+	r.DELETE("/user/:id", c.DeleteUserById)
 
 	return r
 }
